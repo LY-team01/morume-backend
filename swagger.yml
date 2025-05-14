@@ -55,18 +55,8 @@ components:
 
     Filter:
       type: object
-      properties:
-        userId:
-          type: string
-          format: uuid
-        parameters:
-          $ref: '#/components/schemas/FilterParameters'
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
+      $ref: '#/components/schemas/FilterParameters'
+   
 
 security:
   - FirebaseAuth: []
@@ -123,10 +113,11 @@ paths:
         '401':
           description: 認証エラー
 
-  /users/{userId}/filters:
+  /filter/{userId}:
     get:
       tags: [FILTER]
-      summary: 指定ユーザーのフィルター一覧取得
+      summary: 指定ユーザーのフィルター取得
+      description: 指定されたユーザーIDに紐づく最新のフィルター情報を1件取得します。
       security:
         - FirebaseAuth: []
       parameters:
@@ -138,17 +129,15 @@ paths:
             format: uuid
       responses:
         '200':
-          description: 指定ユーザーのフィルター一覧
+          description: 指定ユーザーの最新のフィルター
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Filter'
+                $ref: '#/components/schemas/Filter'
         '401':
           description: 認証エラー
         '404':
-          description: ユーザーが見つかりません
+          description: フィルターが見つかりません
 
   /filter:
     post:
@@ -162,15 +151,9 @@ paths:
           application/json:
             schema:
               type: object
-              required: [userId, name, parameters]
+              required: [parameters]
               properties:
-                userId:
-                  type: string
-                  format: uuid
-                name:
-                  type: string
-                parameters:
-                  $ref: '#/components/schemas/FilterParameters'
+              $ref: '#/components/schemas/FilterParameters'
       responses:
         '201':
           description: フィルター作成成功
@@ -204,10 +187,7 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
-                parameters:
-                  $ref: '#/components/schemas/FilterParameters'
+              $ref: '#/components/schemas/FilterParameters'
       responses:
         '200':
           description: 更新されたフィルター情報
