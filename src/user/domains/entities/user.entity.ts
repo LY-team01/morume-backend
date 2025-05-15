@@ -24,11 +24,12 @@ export class User {
   updatedAt: Date | null;
 
   static create(data: {
+    id: string;
     nickname: string;
     avatarUrl: string | undefined;
   }): User {
     const user = new User();
-    user.id = '';
+    user.id = data.id;
     user.nickname = data.nickname;
     user.avatarUrl = data.avatarUrl || '';
     user.createdAt = new Date();

@@ -9,6 +9,6 @@ export class GetAllUserUsecase {
   ) {}
 
   async execute(): Promise<User[]> {
-    return this.userRepository.findAll();
+    return this.userRepository.getAll();
   }
 }
