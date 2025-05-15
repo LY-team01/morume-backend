@@ -150,9 +150,6 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required: [parameters]
-              properties:
               $ref: '#/components/schemas/FilterParameters'
       responses:
         '201':
