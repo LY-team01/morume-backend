@@ -182,8 +182,6 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
               $ref: '#/components/schemas/FilterParameters'
       responses:
         '200':
