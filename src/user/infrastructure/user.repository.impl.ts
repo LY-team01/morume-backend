@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from 'src/user/domains/entities/user.entity';
 import { IUserRepository } from 'src/user/domains/repository/user.repository.interface';
 import { Prisma } from '@prisma/client';
-import { PrismaService } from 'src/shared/prisma.service';
+import { PrismaService } from 'prisma/prisma.service';
 
 type UserType = Prisma.UserGetPayload<object>;
 @Injectable()
