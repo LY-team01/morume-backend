@@ -12,9 +12,9 @@ export class UserRepository implements IUserRepository {
     return User.factory({
       id: user.id,
       nickname: user.nickname,
-      avatarUrl: user.avatarUrl || undefined,
+      avatarUrl: user.avatarUrl,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt || null,
+      updatedAt: user.updatedAt,
     });
   }
 
