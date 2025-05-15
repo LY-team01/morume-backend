@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity('users')
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -27,8 +27,8 @@ export class User {
     id: string;
     nickname: string;
     avatarUrl: string | null;
-  }): User {
-    const user = new User();
+  }): UserEntity {
+    const user = new UserEntity();
     user.id = data.id;
     user.nickname = data.nickname;
     user.avatarUrl = data.avatarUrl;
@@ -43,8 +43,8 @@ export class User {
     avatarUrl: string;
     createdAt: Date;
     updatedAt: Date | null;
-  }): User {
-    const user = new User();
+  }): UserEntity {
+    const user = new UserEntity();
     user.id = data.id;
     user.nickname = data.nickname;
     user.avatarUrl = data.avatarUrl;
