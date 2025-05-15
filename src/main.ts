@@ -12,8 +12,8 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
+  app.setGlobalPrefix('/api');
   const document = SwaggerModule.createDocument(app, config);
-
   app.use(
     ['/docs', '/docs-json'],
     basicAuth({

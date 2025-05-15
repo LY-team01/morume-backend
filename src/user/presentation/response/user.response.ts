@@ -1,28 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-// `User` インターフェースをクラスに変換
 export class UserResponse {
   @ApiProperty()
   id: string;
 
   @ApiProperty()
-  lastName: string;
-
-  @ApiProperty()
-  firstName: string;
-
-  @ApiProperty()
-  birthday: string;
-
-  @ApiProperty()
-  studentId: string;
+  nickname: string;
 
   @ApiProperty({ nullable: true })
-  lineId?: string | null;
+  avatarUrl: string | null;
 
   @ApiProperty()
-  created_at: string;
+  createdAt: string;
 
   @ApiProperty({ nullable: true })
-  deleted_at?: string | null;
+  updatedAt: string | null;
 }
