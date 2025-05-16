@@ -42,11 +42,10 @@ export class UserController {
     dto: z.infer<typeof createUserValidationSchema>,
   ) {
     const user = req.user;
-    const input = {
+    return await this.createUsecase.execute({
       id: user.uid,
       nickname: dto.nickname,
       avatarUrl: dto.avatarUrl || null,
-    };
-    return await this.createUsecase.execute(input);
+    });
   }
 }
