@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { UserResponse } from 'src/user/presentation/response/user.response';
 import { GetAllUserUsecase } from '../usecases/get-all-user.usecase';
 import { CreateUserUsecase } from '../usecases/create-user.usecase';
@@ -32,6 +37,7 @@ export class UserController {
 
   @Post()
   @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth('firebase-token')
   @ApiOperation({ summary: 'ユーザの作成' })
   @ApiBody({ type: CreateUserRequest })
   @ApiResponse({
