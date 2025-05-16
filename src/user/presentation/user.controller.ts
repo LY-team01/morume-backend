@@ -1,13 +1,16 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserResponse } from 'src/user/presentation/response/user.response';
 import { GetAllUserUsecase } from '../usecases/get-all-user.usecase';
 import { CreateUserUsecase } from '../usecases/create-user.usecase';
 import { ZodValidationPipe } from 'src/shared/zod-validation.pipe';
-import { createUserValidationSchema } from './request/create-user.request';
+import {
+  CreateUserRequest,
+  createUserValidationSchema,
+} from './request/create-user.request';
 import { z } from 'zod';
-import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
 import { Request } from 'express';
+import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
 
 @Controller('users')
 export class UserController {
@@ -30,15 +33,16 @@ export class UserController {
   @Post()
   @UseGuards(FirebaseAuthGuard)
   @ApiOperation({ summary: 'ユーザの作成' })
+  @ApiBody({ type: CreateUserRequest })
   @ApiResponse({
     status: 201,
     description: 'ユーザー作成成功',
     type: UserResponse,
   })
   async createUser(
-    @Body(new ZodValidationPipe(createUserValidationSchema))
     @Req()
     req: Request,
+    @Body(new ZodValidationPipe(createUserValidationSchema))
     dto: z.infer<typeof createUserValidationSchema>,
   ) {
     const user = req.user;
