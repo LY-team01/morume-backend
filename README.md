@@ -86,6 +86,10 @@ pnpm prisma:studio
 pnpm start:dev
 ```
 
+## デバッグ用JWT発行ツール
+開発中に JWT を簡単に発行するためのツールを用意しています。以下のリンクからアクセスできます。
+- [JWT発行ツール](https://firebase-jwt-issuer.vercel.app)
+
 これでローカル環境での開発を開始できます！🚀
 
 # 仕様書関連

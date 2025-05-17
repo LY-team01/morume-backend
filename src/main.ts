@@ -2,6 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as basicAuth from 'express-basic-auth';
+import * as admin from 'firebase-admin';
+import * as serviceAccount from '../firebase-service-account.json';
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,10 +16,26 @@ async function bootstrap() {
     .setTitle('morume API')
     .setDescription('morume APIの仕様書です')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        description: 'JWTを入力してください',
+        in: 'header',
+      },
+      'firebase-token',
+    )
+    .addSecurity('firebase-token', {
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    })
     .build();
 
   app.setGlobalPrefix('/api');
-  const document = SwaggerModule.createDocument(app, config);
+
   app.use(
     ['/docs', '/docs-json'],
     basicAuth({
@@ -25,6 +47,7 @@ async function bootstrap() {
     }),
   );
 
+  const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT ?? 8080);
