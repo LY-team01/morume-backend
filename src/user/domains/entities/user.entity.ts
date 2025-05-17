@@ -20,8 +20,8 @@ export class UserEntity {
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', nullable: true })
-  updatedAt: Date | null;
+  @UpdateDateColumn({ type: 'timestamp', nullable: false })
+  updatedAt: Date;
 
   static create(data: {
     id: string;
@@ -33,7 +33,7 @@ export class UserEntity {
     user.nickname = data.nickname;
     user.avatarUrl = data.avatarUrl;
     user.createdAt = new Date();
-    user.updatedAt = null;
+    user.updatedAt = new Date();
     return user;
   }
 

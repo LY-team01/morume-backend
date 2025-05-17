@@ -22,4 +22,18 @@ export class UserRepository implements IUserRepository {
     const users = await this.prisma.user.findMany();
     return users.map((user) => this.toEntity(user));
   }
+
+  async save(user: UserEntity): Promise<UserEntity> {
+    const userData: Prisma.UserCreateInput = {
+      id: user.id,
+      nickname: user.nickname,
+      avatarUrl: user.avatarUrl,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+    const savedUser = await this.prisma.user.create({
+      data: userData,
+    });
+    return this.toEntity(savedUser);
+  }
 }
