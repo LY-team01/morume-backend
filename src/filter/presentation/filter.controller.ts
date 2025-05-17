@@ -1,7 +1,8 @@
-import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException, UseGuards } from '@nestjs/common';
 import { GetFilterByUserIdUseCase } from '../usecases/fetch-filter.usecase';
 import { FilterResponse } from './response/filter.response';
-import { ApiOperation, ApiResponse} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse} from '@nestjs/swagger';
+import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
 
 @Controller('filter')
 export class FilterController {
@@ -10,6 +11,8 @@ export class FilterController {
   ) {}
 
   @Get(':userId')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth('firebase-token')
   @ApiOperation({ summary: 'フィルター取得' })
   @ApiResponse({
     status: 200,
