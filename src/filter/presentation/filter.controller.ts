@@ -30,9 +30,7 @@ export class FilterController {
     status: 404,
     description: 'フィルターが見つかりません',
   })
-  async getMyFilter(
-    @Req() req: Request,
-  ) {
+  async getMyFilter(@Req() req: Request) {
     const userId = req.user.uid; // Firebase認証から取得したユーザーID
     const filter = await this.getFilterByUserIdUseCase.execute(userId);
 
