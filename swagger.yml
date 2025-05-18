@@ -22,6 +22,17 @@ components:
       bearerFormat: JWT
 
   schemas:
+    FilterParameters:
+      type: object
+      required: [brightness, skin, contour, eye, nose, mouth]
+      properties:
+        brightness: { type: integer, minimum: 0, maximum: 100 }
+        skin: { type: integer, minimum: 0, maximum: 100 }
+        contour: { type: integer, minimum: 0, maximum: 100 }
+        eye: { type: integer, minimum: 0, maximum: 100 }
+        nose: { type: integer, minimum: 0, maximum: 100 }
+        mouth: { type: integer, minimum: 0, maximum: 100 }
+
     User:
       type: object
       properties:
@@ -35,23 +46,14 @@ components:
           type: string
           format: uri
           nullable: true
+        filterParameters:
+          $ref: '#/components/schemas/FilterParameters'
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
-
-    FilterParameters:
-      type: object
-      required: [brightness, skin, contour, eye, nose, mouth]
-      properties:
-        brightness: { type: integer, minimum: 0, maximum: 100 }
-        skin: { type: integer, minimum: 0, maximum: 100 }
-        contour: { type: integer, minimum: 0, maximum: 100 }
-        eye: { type: integer, minimum: 0, maximum: 100 }
-        nose: { type: integer, minimum: 0, maximum: 100 }
-        mouth: { type: integer, minimum: 0, maximum: 100 }
 
     Filter:
       allOf:
@@ -80,9 +82,6 @@ paths:
               type: object
               required: [nickname]
               properties:
-                id:
-                  type: string
-                  format: uuid
                 nickname:
                   type: string
                   maxLength: 30
@@ -90,34 +89,15 @@ paths:
                   type: string
                   format: uri
                   nullable: true
-                FilterParameters:
+                filterParameters:
                   $ref: '#/components/schemas/FilterParameters'
       responses:
-        '201':
+        '200':
           description: ユーザー登録/更新成功
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  nickname:
-                    type: string
-                    maxLength: 30
-                  avatarUrl:
-                    type: string
-                    format: uri
-                    nullable: true
-                  FilterParameters:
-                    $ref: '#/components/schemas/FilterParameters'
-                  createdAt:
-                    type: string
-                    format: date-time
-                  updatedAt:
-                    type: string
-                    format: date-time
+                $ref: '#/components/schemas/User'
         '400':
           description: リクエスト形式不正
         '401':
@@ -137,26 +117,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      format: uuid
-                    nickname:
-                      type: string
-                      maxLength: 30
-                    avatarUrl:
-                      type: string
-                      format: uri
-                      nullable: true
-                    FilterParameters:
-                      $ref: '#/components/schemas/FilterParameters'
-                    createdAt:
-                      type: string
-                      format: date-time
-                    updatedAt:
-                      type: string
-                      format: date-time
+                  $ref: '#/components/schemas/User'
         '401':
           description: 認証エラー
 
@@ -172,26 +133,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    format: uuid
-                  nickname:
-                    type: string
-                    maxLength: 30
-                  avatarUrl:
-                    type: string
-                    format: uri
-                    nullable: true
-                  FilterParameters:
-                    $ref: '#/components/schemas/FilterParameters'
-                  createdAt:
-                    type: string
-                    format: date-time
-                  updatedAt:
-                    type: string
-                    format: date-time
+                $ref: '#/components/schemas/User'
         '401':
           description: 認証エラー
 
@@ -211,6 +153,24 @@ paths:
       responses:
         '200':
           description: 指定ユーザーのフィルター情報
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter'
+        '401':
+          description: 認証エラー
+        '404':
+          description: フィルターが見つかりません
+
+  /filters/me:
+    get:
+      tags: [FILTER]
+      summary: 自分のフィルター取得
+      security:
+        - FirebaseAuth: []
+      responses:
+        '200':
+          description: 自分のフィルター情報
           content:
             application/json:
               schema:
