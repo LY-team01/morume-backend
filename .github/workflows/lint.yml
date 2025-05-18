@@ -30,6 +30,12 @@ jobs:
         run: |
           pnpm install
 
+      - name: Git config and rebase before formatting
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin ${{ github.head_ref }}
+
       - name: Run Prettier auto format
         run: |
           pnpm format
@@ -40,13 +46,6 @@ jobs:
 
       - name: Commit and push changes if any
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          # 最新の状態を取得してリベース
-          git pull --rebase origin ${{ github.head_ref }}
-
           git add .
           git diff --cached --quiet || git commit -m "chore: auto format via GitHub Actions"
-
           git push origin HEAD:${{ github.head_ref }}
