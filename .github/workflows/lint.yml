@@ -32,17 +32,14 @@ jobs:
 
       - name: Run Prettier auto format
         run: |
-          cd service
           pnpm format
 
       - name: Run ESLint with auto fix
         run: |
-          cd service
           pnpm lint
 
       - name: Commit and push changes if any
         run: |
-          cd service
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
