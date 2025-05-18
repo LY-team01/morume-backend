@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: 顔フィルター共有アプリ API
-  version: "1.0.0"
+  version: '1.0.0'
   description: Firebase Authentication による認証付き顔フィルター共有アプリのAPI仕様
 
 servers:
@@ -22,6 +22,17 @@ components:
       bearerFormat: JWT
 
   schemas:
+    FilterParameters:
+      type: object
+      required: [brightness, skin, contour, eye, nose, mouth]
+      properties:
+        brightness: { type: integer, minimum: 0, maximum: 100 }
+        skin: { type: integer, minimum: 0, maximum: 100 }
+        contour: { type: integer, minimum: 0, maximum: 100 }
+        eye: { type: integer, minimum: 0, maximum: 100 }
+        nose: { type: integer, minimum: 0, maximum: 100 }
+        mouth: { type: integer, minimum: 0, maximum: 100 }
+
     User:
       type: object
       properties:
@@ -35,6 +46,8 @@ components:
           type: string
           format: uri
           nullable: true
+        filterParameters:
+          $ref: '#/components/schemas/FilterParameters'
         createdAt:
           type: string
           format: date-time
@@ -42,31 +55,23 @@ components:
           type: string
           format: date-time
 
-    FilterParameters:
-      type: object
-      required: [brightness, skin, contour, eye, nose, mouth]
-      properties:
-        brightness: { type: integer, minimum: 0, maximum: 100 }
-        skin: { type: integer, minimum: 0, maximum: 100 }
-        contour: { type: integer, minimum: 0, maximum: 100 }
-        eye: { type: integer, minimum: 0, maximum: 100 }
-        nose: { type: integer, minimum: 0, maximum: 100 }
-        mouth: { type: integer, minimum: 0, maximum: 100 }
-
     Filter:
-      type: object
-      $ref: '#/components/schemas/FilterParameters'
-   
+      allOf:
+        - $ref: '#/components/schemas/FilterParameters'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
 
 security:
   - FirebaseAuth: []
 
 paths:
   /users:
-    post:
+    put:
       tags: [USER]
       summary: ユーザー登録
-      description: FirebaseのIDトークンにより認証されたユーザーを登録します。
       security:
         - FirebaseAuth: []
       requestBody:
@@ -84,9 +89,11 @@ paths:
                   type: string
                   format: uri
                   nullable: true
+                filterParameters:
+                  $ref: '#/components/schemas/FilterParameters'
       responses:
-        '201':
-          description: ユーザー登録成功
+        '200':
+          description: ユーザー登録/更新成功
           content:
             application/json:
               schema:
@@ -96,6 +103,7 @@ paths:
         '401':
           description: 認証エラー
 
+  /users/list:
     get:
       tags: [USER]
       summary: ユーザー一覧取得
@@ -113,11 +121,26 @@ paths:
         '401':
           description: 認証エラー
 
-  /filter/{userId}:
+  /users/me:
+    get:
+      tags: [USER]
+      summary: 自分のユーザー情報取得
+      security:
+        - FirebaseAuth: []
+      responses:
+        '200':
+          description: 自分のユーザー情報
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: 認証エラー
+
+  /filters/{userId}:
     get:
       tags: [FILTER]
       summary: 指定ユーザーのフィルター取得
-      description: 指定されたユーザーIDに紐づく最新のフィルター情報を1件取得します。
       security:
         - FirebaseAuth: []
       parameters:
@@ -129,7 +152,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: 指定ユーザーの最新のフィルター
+          description: 指定ユーザーのフィルター情報
           content:
             application/json:
               schema:
@@ -139,59 +162,19 @@ paths:
         '404':
           description: フィルターが見つかりません
 
-  /filter:
-    post:
+  /filters/me:
+    get:
       tags: [FILTER]
-      summary: フィルター作成
+      summary: 自分のフィルター取得
       security:
         - FirebaseAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FilterParameters'
-      responses:
-        '201':
-          description: フィルター作成成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Filter'
-        '400':
-          description: 不正な入力
-        '401':
-          description: 認証エラー
-
-  /filter/{filterId}:
-    patch:
-      tags: [FILTER]
-      summary: フィルター情報の更新
-      security:
-        - FirebaseAuth: []
-      parameters:
-        - in: path
-          name: filterId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: 更新対象のフィルターID
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FilterParameters'
       responses:
         '200':
-          description: 更新されたフィルター情報
+          description: 自分のフィルター情報
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Filter'
-        '400':
-          description: 入力不備
         '401':
           description: 認証エラー
         '404':
