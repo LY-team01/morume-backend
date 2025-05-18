@@ -40,7 +40,10 @@ export class FilterRepository implements IFilterRepository {
   }
 
   // フィルター更新
-  async update(userId: string, parameters: FilterEntity['parameters']): Promise<FilterEntity> {
+  async update(
+    userId: string,
+    parameters: FilterEntity['parameters'],
+  ): Promise<FilterEntity> {
     const updated = await this.prisma.filter.update({
       where: { userId },
       data: { parameters },

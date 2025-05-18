@@ -1,7 +1,13 @@
-import { Controller, Get, Param, NotFoundException, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import { GetFilterByUserIdUseCase } from '../usecases/fetch-filter.usecase';
 import { FilterResponse } from './response/filter.response';
-import { ApiBearerAuth, ApiOperation, ApiResponse} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
 
 @Controller('filter')
