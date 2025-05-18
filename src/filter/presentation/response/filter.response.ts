@@ -14,7 +14,7 @@ export class FilterResponse {
       eye: { type: 'number', minimum: 0, maximum: 100 },
       nose: { type: 'number', minimum: 0, maximum: 100 },
       mouth: { type: 'number', minimum: 0, maximum: 100 },
-    }
+    },
   })
   parameters: Record<string, number>;
 
