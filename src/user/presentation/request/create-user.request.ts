@@ -16,7 +16,7 @@ export class CreateUserRequest {
   @ApiProperty({
     description: 'フィルターパラメータ',
     example: {
-      brigthness: 25,
+      brightness: 25,
       skin: 50,
       contour: 75,
       eye: 100,

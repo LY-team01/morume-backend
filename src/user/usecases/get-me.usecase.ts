@@ -19,6 +19,8 @@ export class GetMeUserUsecase {
     } catch (error) {
       if (error instanceof ResourceNotFoundError) {
         throw new NotFoundException(`User with ID ${input.userId} not found`);
+      } else {
+        throw error;
       }
     }
   }

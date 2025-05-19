@@ -26,7 +26,6 @@ export class UserRepository implements IUserRepository {
         filter: true,
       },
     });
-    console.log(users);
     return users.map((user) =>
       this.toEntity({
         user,
