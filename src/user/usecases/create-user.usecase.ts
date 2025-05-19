@@ -12,11 +12,13 @@ export class CreateUserUsecase {
     id: string;
     nickname: string;
     avatarUrl?: string | null;
+    filter: Record<string, any>;
   }): Promise<UserEntity> {
     const user = UserEntity.create({
       id: dto.id,
       nickname: dto.nickname,
       avatarUrl: dto.avatarUrl || null,
+      filter: dto.filter,
     });
     return await this.userRepository.save(user);
   }

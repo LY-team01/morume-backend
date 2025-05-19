@@ -5,7 +5,7 @@ info:
   description: Firebase Authentication による認証付き顔フィルター共有アプリのAPI仕様
 
 servers:
-  - url: http://localhost:8080/api
+  - url: http://localhost:8080
     description: ローカルAPIサーバー
 
 tags:
@@ -46,7 +46,7 @@ components:
           type: string
           format: uri
           nullable: true
-        filterParameters:
+        filter:
           $ref: '#/components/schemas/FilterParameters'
         createdAt:
           type: string
@@ -60,7 +60,7 @@ components:
         - $ref: '#/components/schemas/FilterParameters'
         - type: object
           properties:
-            id:
+            userId:
               type: string
               format: uuid
 
@@ -68,10 +68,10 @@ security:
   - FirebaseAuth: []
 
 paths:
-  /users:
+  /api/users:
     put:
       tags: [USER]
-      summary: ユーザー登録
+      summary: ユーザー登録/更新
       security:
         - FirebaseAuth: []
       requestBody:
@@ -89,7 +89,7 @@ paths:
                   type: string
                   format: uri
                   nullable: true
-                filterParameters:
+                filter:
                   $ref: '#/components/schemas/FilterParameters'
       responses:
         '200':
@@ -103,7 +103,7 @@ paths:
         '401':
           description: 認証エラー
 
-  /users/list:
+  /api/users/list:
     get:
       tags: [USER]
       summary: ユーザー一覧取得
@@ -121,7 +121,7 @@ paths:
         '401':
           description: 認証エラー
 
-  /users/me:
+  /api/users/me:
     get:
       tags: [USER]
       summary: 自分のユーザー情報取得
@@ -137,7 +137,7 @@ paths:
         '401':
           description: 認証エラー
 
-  /filters/{userId}:
+  /api/filters/{userId}:
     get:
       tags: [FILTER]
       summary: 指定ユーザーのフィルター取得
@@ -162,7 +162,7 @@ paths:
         '404':
           description: フィルターが見つかりません
 
-  /filters/me:
+  /api/filters/me:
     get:
       tags: [FILTER]
       summary: 自分のフィルター取得
