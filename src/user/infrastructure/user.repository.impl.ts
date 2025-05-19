@@ -3,6 +3,7 @@ import { UserEntity } from 'src/user/domains/entities/user.entity';
 import { IUserRepository } from 'src/user/domains/repository/user.repository.interface';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+import { ResourceNotFoundError } from 'src/shared/errors/resource-not-found.error';
 
 type UserType = Prisma.UserGetPayload<object>;
 @Injectable()
@@ -41,7 +42,7 @@ export class UserRepository implements IUserRepository {
     });
 
     if (!user) {
-      throw new Error(`User with ID ${userId} not found`);
+      throw new ResourceNotFoundError();
     }
 
     return this.toEntity({
