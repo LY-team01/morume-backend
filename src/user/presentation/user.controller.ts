@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Put, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -16,26 +16,17 @@ import {
 import { z } from 'zod';
 import { Request } from 'express';
 import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
+import { GetMeUserUsecase } from '../usecases/get-me.usecase';
 
 @Controller('users')
 export class UserController {
   constructor(
     private readonly getAllUsecase: GetAllUserUsecase,
+    private readonly getMeUsecase: GetMeUserUsecase,
     private readonly createUsecase: CreateUserUsecase,
   ) {}
 
-  @Get()
-  @ApiOperation({ summary: 'ユーザ一覧の取得' })
-  @ApiResponse({
-    status: 200,
-    description: 'ユーザー一覧取得成功',
-    type: [UserResponse],
-  })
-  async getAllUsers() {
-    return await this.getAllUsecase.execute();
-  }
-
-  @Post()
+  @Put()
   @UseGuards(FirebaseAuthGuard)
   @ApiBearerAuth('firebase-token')
   @ApiOperation({ summary: 'ユーザの作成' })
@@ -56,6 +47,37 @@ export class UserController {
       id: user.uid,
       nickname: dto.nickname,
       avatarUrl: dto.avatarUrl || null,
+      filter: dto.filter,
     });
+  }
+
+  @Get('/list')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth('firebase-token')
+  @ApiOperation({ summary: 'ユーザ一覧の取得' })
+  @ApiResponse({
+    status: 200,
+    description: 'ユーザー一覧取得成功',
+    type: [UserResponse],
+  })
+  async getAllUsers() {
+    return await this.getAllUsecase.execute();
+  }
+
+  @Get('/me')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth('firebase-token')
+  @ApiOperation({ summary: '自分のユーザー情報取得' })
+  @ApiResponse({
+    status: 200,
+    description: '自分のユーザー情報取得',
+    type: UserResponse,
+  })
+  async getMeUser(
+    @Req()
+    req: Request,
+  ) {
+    const userId = req.user.uid;
+    return await this.getMeUsecase.execute({ userId });
   }
 }
