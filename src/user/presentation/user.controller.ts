@@ -16,15 +16,19 @@ import {
 import { z } from 'zod';
 import { Request } from 'express';
 import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
+import { GetMeUserUsecase } from '../usecases/get-me.usecase';
 
 @Controller('users')
 export class UserController {
   constructor(
     private readonly getAllUsecase: GetAllUserUsecase,
+    private readonly getMeUsecase: GetMeUserUsecase,
     private readonly createUsecase: CreateUserUsecase,
   ) {}
 
   @Get('/list')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth('firebase-token')
   @ApiOperation({ summary: 'ユーザ一覧の取得' })
   @ApiResponse({
     status: 200,
@@ -33,6 +37,23 @@ export class UserController {
   })
   async getAllUsers() {
     return await this.getAllUsecase.execute();
+  }
+
+  @Get('/me')
+  @UseGuards(FirebaseAuthGuard)
+  @ApiBearerAuth('firebase-token')
+  @ApiOperation({ summary: '自分のユーザー情報取得' })
+  @ApiResponse({
+    status: 200,
+    description: '自分のユーザー情報取得',
+    type: [UserResponse],
+  })
+  async getMeUser(
+    @Req()
+    req: Request,
+  ) {
+    const userId = req.user.uid;
+    return await this.getMeUsecase.execute({ userId });
   }
 
   @Put()

@@ -34,6 +34,22 @@ export class UserRepository implements IUserRepository {
     );
   }
 
+  async getByUserId(userId: string): Promise<UserEntity> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { filter: true },
+    });
+
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+
+    return this.toEntity({
+      user,
+      filter: user.filter.parameters as Record<string, any>,
+    });
+  }
+
   async save(user: UserEntity): Promise<UserEntity> {
     const now = new Date();
 
