@@ -11,7 +11,7 @@ import { FilterResponse } from './response/filter.response';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
 import { Request } from 'express';
-@Controller('filter')
+@Controller('filters')
 export class FilterController {
   constructor(
     private readonly getFilterByUserIdUseCase: GetFilterByUserIdUseCase,
