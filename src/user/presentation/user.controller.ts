@@ -24,7 +24,7 @@ export class UserController {
     private readonly createUsecase: CreateUserUsecase,
   ) {}
 
-  @Get()
+  @Get('/list')
   @ApiOperation({ summary: 'ユーザ一覧の取得' })
   @ApiResponse({
     status: 200,
