@@ -71,7 +71,7 @@ paths:
   /api/users:
     put:
       tags: [USER]
-      summary: ユーザー登録
+      summary: ユーザー登録/更新
       security:
         - FirebaseAuth: []
       requestBody:
