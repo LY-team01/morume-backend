@@ -25,6 +25,7 @@ export class UserRepository implements IUserRepository {
         filter: true,
       },
     });
+    console.log(users);
     return users.map((user) =>
       this.toEntity({
         user,
@@ -34,30 +35,36 @@ export class UserRepository implements IUserRepository {
   }
 
   async save(user: UserEntity): Promise<UserEntity> {
+    const now = new Date();
+
+    const existingUser = await this.prisma.user.findUnique({
+      where: { id: user.id },
+    });
+
     const userData = {
       id: user.id,
       nickname: user.nickname,
       avatarUrl: user.avatarUrl,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      createdAt: existingUser?.createdAt ?? user.createdAt ?? now,
+      updatedAt: now,
     };
 
     const filterData = {
       userId: user.id,
       parameters: user.filter,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      createdAt: user?.createdAt ?? user.createdAt ?? now,
+      updatedAt: now,
     };
 
     const [savedUser, savedFilter] = await this.prisma.$transaction([
       this.prisma.user.upsert({
         where: { id: user.id },
-        update: userData,
+        update: { ...userData, createdAt: undefined }, // createdAt は update で上書きしない
         create: userData,
       }),
       this.prisma.filter.upsert({
         where: { userId: user.id },
-        update: filterData,
+        update: { ...filterData, createdAt: undefined },
         create: filterData,
       }),
     ]);
