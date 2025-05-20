@@ -49,7 +49,7 @@ jobs:
       - name: Build & Push image
         run: |
           docker buildx build --platform linux/amd64 \
-            -t gcr.io/morume/api:latest \
+            -t asia-northeast1-docker.pkg.dev/morume/cloud-run/api:latest \
             --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
             --build-arg DIRECT_URL="${{ secrets.DIRECT_URL }}" \
             --push .
@@ -58,7 +58,7 @@ jobs:
       - id: digest
         name: Get image digest
         run: |
-          DIGEST=$(gcloud container images describe \
+          DIGEST=$(gcloud artifacts docker images describe \
             ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}:latest \
             --format='get(image_summary.digest)')
           echo "IMAGE_REF=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}@$DIGEST" \
