@@ -52,6 +52,8 @@ jobs:
             -t asia-northeast1-docker.pkg.dev/morume/cloud-run/api:latest \
             --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
             --build-arg DIRECT_URL="${{ secrets.DIRECT_URL }}" \
+            --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            --build-arg DIRECT_URL="${{ secrets.DIRECT_URL }}" \
             --push .
 
       # 6. 最新イメージ digest を取得
