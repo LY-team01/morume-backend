@@ -61,8 +61,7 @@ jobs:
           DIGEST=$(gcloud container images describe \
             ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}:latest \
             --format='get(image_summary.digest)')
-          echo "IMAGE_REF=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}@$DIGEST" \
-            >> $GITHUB_OUTPUT
+          echo "IMAGE_REF=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}@$DIGEST" >> "$GITHUB_OUTPUT"
 
       # 7. Terraform CLI セットアップ（Cloud 連携なし）
       - uses: hashicorp/setup-terraform@v3
