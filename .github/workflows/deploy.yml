@@ -8,6 +8,17 @@ env:
   PROJECT_ID: morume
   REGION: asia-northeast1
   IMAGE_NAME: api
+  SWAGGER_USER: ${{ secrets.SWAGGER_USER }}
+  SWAGGER_PASS: ${{ secrets.SWAGGER_PASS }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DIRECT_URL: ${{ secrets.DIRECT_URL }}
+  GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+  GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+  GOOGLE_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLIENT_EMAIL }}
 
 jobs:
   deploy:
