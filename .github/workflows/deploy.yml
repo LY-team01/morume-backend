@@ -79,5 +79,15 @@ jobs:
         working-directory: terraform
         run: |
           terraform apply -input=false -auto-approve \
-            -var-file=prod.tfvars \
-            -var="api_image_url=${{ steps.digest.outputs.IMAGE_REF }}"
+            -var="project_id=${{ env.PROJECT_ID }}" \
+            -var="region=${{ env.REGION }}" \
+            -var="api_image_url=${{ steps.digest.outputs.IMAGE_REF }}" \
+            -var="swagger_user=${{ env.SWAGGER_USER }}" \
+            -var="swagger_pass=${{ env.SWAGGER_PASS }}" \
+            -var="postgres_user=${{ env.POSTGRES_USER }}" \
+            -var="postgres_password=${{ env.POSTGRES_PASSWORD }}" \
+            -var="postgres_db=${{ env.POSTGRES_DB }}" \
+            -var="postgres_port=${{ env.POSTGRES_PORT }}" \
+            -var="google_project_id=${{ env.GOOGLE_PROJECT_ID }}" \
+            -var="google_private_key=${{ env.GOOGLE_PRIVATE_KEY }}" \
+            -var="google_client_email=${{ env.GOOGLE_CLIENT_EMAIL }}"
