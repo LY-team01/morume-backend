@@ -78,25 +78,25 @@ jobs:
       - name: Terraform Import Cloud Run Service
         working-directory: terraform
         run: |
-          terraform import \
-            -var="PROJECT_ID=${{ env.PROJECT_ID }}" \
-            -var="REGION=${{ env.REGION }}" \
-            -var="API_IMAGE_URL=${{ steps.digest.outputs.IMAGE_REF }}" \
-            -var="SWAGGER_USER=${{ env.SWAGGER_USER }}" \
-            -var="SWAGGER_PASS=${{ env.SWAGGER_PASS }}" \
-            -var="POSTGRES_USER=${{ env.POSTGRES_USER }}" \
-            -var="POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}" \
-            -var="POSTGRES_DB=${{ env.POSTGRES_DB }}" \
-            -var="POSTGRES_PORT=${{ env.POSTGRES_PORT }}" \
-            -var="GOOGLE_PROJECT_ID=${{ env.GOOGLE_PROJECT_ID }}" \
-            -var="GOOGLE_PRIVATE_KEY=${{ env.GOOGLE_PRIVATE_KEY }}" \
-            -var="GOOGLE_CLIENT_EMAIL=${{ env.GOOGLE_CLIENT_EMAIL }}" \
-            -var="DATABASE_URL=${{ secrets.DATABASE_URL }}" \
-            -var="DIRECT_URL=${{ secrets.DIRECT_URL }}" \
+          terraform import -input=false \
             google_cloud_run_service.api \
-            projects/morume/locations/us-central1/services/morume
+            locations/${{ env.REGION }}/namespaces/${{ env.PROJECT_ID }}/services/${{ env.IMAGE_NAME }}
         env:
           TF_INPUT: false
+          TF_VAR_PROJECT_ID: ${{ env.PROJECT_ID }}
+          TF_VAR_REGION: ${{ env.REGION }}
+          TF_VAR_API_IMAGE_URL: ${{ steps.digest.outputs.IMAGE_REF }}
+          TF_VAR_SWAGGER_USER: ${{ env.SWAGGER_USER }}
+          TF_VAR_SWAGGER_PASS: ${{ env.SWAGGER_PASS }}
+          TF_VAR_POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          TF_VAR_POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          TF_VAR_POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          TF_VAR_POSTGRES_PORT: ${{ env.POSTGRES_PORT }}
+          TF_VAR_GOOGLE_PROJECT_ID: ${{ env.GOOGLE_PROJECT_ID }}
+          TF_VAR_GOOGLE_PRIVATE_KEY: ${{ env.GOOGLE_PRIVATE_KEY }}
+          TF_VAR_GOOGLE_CLIENT_EMAIL: ${{ env.GOOGLE_CLIENT_EMAIL }}
+          TF_VAR_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TF_VAR_DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       # 10. terraform apply（prod.tfvars + image digest）
       - name: Terraform Apply
