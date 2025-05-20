@@ -59,9 +59,9 @@ jobs:
         name: Get image digest
         run: |
           DIGEST=$(gcloud artifacts docker images describe \
-            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}:latest \
+            asia-northeast1-docker.pkg.dev/morume/cloud-run/api:latest \
             --format='get(image_summary.digest)')
-          echo "IMAGE_REF=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}@$DIGEST" \
+          echo "IMAGE_REF=asia-northeast1-docker.pkg.dev/morume/cloud-run/api@$DIGEST" \
             >> $GITHUB_OUTPUT
 
       # 7. Terraform CLI セットアップ（Cloud 連携なし）
