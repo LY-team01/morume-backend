@@ -74,7 +74,15 @@ jobs:
         working-directory: terraform
         run: terraform init -input=false
 
-      # 9. terraform apply（prod.tfvars + image digest）
+      # 9.5. terraform import（Cloud Run Service 既存取り込み）
+      - name: Terraform Import Cloud Run Service
+        working-directory: terraform
+        run: |
+          terraform import \
+            google_cloud_run_service.api \
+            projects/morume/locations/us-central1/services/morume
+
+      # 10. terraform apply（prod.tfvars + image digest）
       - name: Terraform Apply
         working-directory: terraform
         run: |
