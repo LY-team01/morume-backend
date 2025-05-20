@@ -81,6 +81,8 @@ jobs:
           terraform import \
             google_cloud_run_service.api \
             projects/morume/locations/us-central1/services/morume
+        env:
+          TF_INPUT: false
 
       # 10. terraform apply（prod.tfvars + image digest）
       - name: Terraform Apply
