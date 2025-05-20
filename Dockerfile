@@ -13,10 +13,10 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN pnpm run build
-
 RUN pnpm exec prisma generate
 RUN pnpm exec prisma migrate deploy
+
+RUN pnpm run build
 
 RUN pnpm prune --prod
 
