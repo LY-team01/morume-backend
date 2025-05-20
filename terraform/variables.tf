@@ -1,14 +1,14 @@
-variable "project_id" {
+variable "PROJECT_ID" {
   description = "GCPプロジェクトID"
   type        = string
 }
 
-variable "api_image_url" {
+variable "API_IMAGE_URL" {
   description = "Cloud Runで使用するDockerイメージのURL"
   type        = string
 }
 
-variable "region" {
+variable "REGION" {
   description = "デプロイするGCPリージョン"
   type        = string
   default     = "asia-northeast1"

@@ -14,4 +14,4 @@ IMAGE_REFERENCE="gcr.io/morume/api@$IMAGE_DIGEST"
 
 cd ./terraform
 terraform init
-terraform apply -var-file=prod.tfvars -var="api_image_url=$IMAGE_REFERENCE"
+terraform apply -var-file=prod.tfvars -var="API_IMAGE_URL=$IMAGE_REFERENCE"

@@ -1,17 +1,17 @@
 resource "google_cloud_run_service" "api" {
   name     = "morume"
-  location = var.region
+  location = var.REGION
 
   template {
     metadata {
       annotations = {
-        "autoscaling.knative.dev/minScale" = "1"
+        "autoscaling.knative.dev/minScale" = "0"
         "autoscaling.knative.dev/maxScale" = "10"
       }
     }
     spec {
       containers {
-        image = var.api_image_url
+        image = var.API_IMAGE_URL
         ports {
           container_port = 8080
         }
