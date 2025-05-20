@@ -7,6 +7,7 @@ on:
 env:
   PROJECT_ID: morume
   REGION: us-central1
+  SERVICE_NAME: morume # Cloud Run service name
   IMAGE_NAME: api
   SWAGGER_USER: ${{ secrets.SWAGGER_USER }}
   SWAGGER_PASS: ${{ secrets.SWAGGER_PASS }}
@@ -80,7 +81,7 @@ jobs:
         run: |
           terraform import -input=false \
             google_cloud_run_service.api \
-            locations/${{ env.REGION }}/namespaces/${{ env.PROJECT_ID }}/services/${{ env.IMAGE_NAME }}
+            locations/${{ env.REGION }}/namespaces/${{ env.PROJECT_ID }}/services/${{ env.SERVICE_NAME }}
         env:
           TF_INPUT: false
           TF_VAR_PROJECT_ID: ${{ env.PROJECT_ID }}
@@ -97,10 +98,13 @@ jobs:
           TF_VAR_GOOGLE_CLIENT_EMAIL: ${{ env.GOOGLE_CLIENT_EMAIL }}
           TF_VAR_DATABASE_URL: ${{ secrets.DATABASE_URL }}
           TF_VAR_DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          TF_VAR_SERVICE_NAME: ${{ env.SERVICE_NAME }}
 
       # 10. terraform apply（prod.tfvars + image digest）
       - name: Terraform Apply
         working-directory: terraform
+        env:
+          TF_VAR_SERVICE_NAME: ${{ env.SERVICE_NAME }}
         run: |
           terraform apply -input=false -auto-approve \
             -var="PROJECT_ID=${{ env.PROJECT_ID }}" \
