@@ -31,6 +31,7 @@ jobs:
       # Inserted step for authentication
       - uses: google-github-actions/auth@v1
         with:
+          project_id: morume # ← 明示すると安心
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
 
       # 2. gcloud セットアップ（サービスアカウント キーで認証）
