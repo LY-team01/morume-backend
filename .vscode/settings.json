@@ -6,5 +6,20 @@
     "editor.formatOnSave": true,
     "[dotenv]": {
         "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
+    "[ignore]": {
+        "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
+    "[terraform-vars]": {
+        "editor.defaultFormatter": "hashicorp.terraform"
+    },
+    "[terraform]": {
+        "editor.defaultFormatter": "hashicorp.terraform"
+    },
+    "[shellscript]": {
+        "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma"
     }
 }
