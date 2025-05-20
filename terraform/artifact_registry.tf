@@ -6,7 +6,7 @@ resource "google_project_service" "artifactregistry" {
 resource "google_artifact_registry_repository" "cloud_run" {
   provider      = google
   project       = var.PROJECT_ID
-  location      = var.REGION # asia-northeast1
+  location      = var.REGION
   repository_id = "cloud-run"
   description   = "Cloud Run container images"
   format        = "DOCKER"

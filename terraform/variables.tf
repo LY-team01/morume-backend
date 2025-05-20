@@ -26,7 +26,6 @@ variable "API_IMAGE_URL" {
 variable "REGION" {
   description = "デプロイするGCPリージョン"
   type        = string
-  default     = "asia-northeast1"
 }
 
 
@@ -38,7 +37,6 @@ variable "SWAGGER_USER" {
 variable "SWAGGER_PASS" {
   description = "Swagger UIのパスワード"
   type        = string
-  default     = "asia-northeast1"
 }
 
 variable "POSTGRES_USER" {
@@ -49,7 +47,6 @@ variable "POSTGRES_USER" {
 variable "POSTGRES_PASSWORD" {
   description = "PostgreSQLのパスワード"
   type        = string
-  default     = "asia-northeast1"
 }
 
 variable "POSTGRES_DB" {

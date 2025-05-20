@@ -6,7 +6,7 @@ on:
       - main
 env:
   PROJECT_ID: morume
-  REGION: asia-northeast1
+  REGION: us-central1
   IMAGE_NAME: api
   SWAGGER_USER: ${{ secrets.SWAGGER_USER }}
   SWAGGER_PASS: ${{ secrets.SWAGGER_PASS }}
@@ -50,7 +50,7 @@ jobs:
       - name: Build & Push image
         run: |
           docker buildx build --platform linux/amd64 \
-            -t asia-northeast1-docker.pkg.dev/morume/cloud-run/api:latest \
+            -t us-central1-docker.pkg.dev/morume/cloud-run/api:latest \
             --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
             --build-arg DIRECT_URL="${{ secrets.DIRECT_URL }}" \
             --push .
