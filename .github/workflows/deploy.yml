@@ -52,18 +52,16 @@ jobs:
             -t asia-northeast1-docker.pkg.dev/morume/cloud-run/api:latest \
             --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
             --build-arg DIRECT_URL="${{ secrets.DIRECT_URL }}" \
-            --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-            --build-arg DIRECT_URL="${{ secrets.DIRECT_URL }}" \
             --push .
 
       # 6. 最新イメージ digest を取得
       - id: digest
         name: Get image digest
         run: |
-          DIGEST=$(gcloud artifacts docker images describe \
-            asia-northeast1-docker.pkg.dev/morume/cloud-run/api:latest \
+          DIGEST=$(gcloud container images describe \
+            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}:latest \
             --format='get(image_summary.digest)')
-          echo "IMAGE_REF=asia-northeast1-docker.pkg.dev/morume/cloud-run/api@$DIGEST" \
+          echo "IMAGE_REF=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}@$DIGEST" \
             >> $GITHUB_OUTPUT
 
       # 7. Terraform CLI セットアップ（Cloud 連携なし）
