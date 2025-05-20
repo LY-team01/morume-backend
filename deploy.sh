@@ -3,6 +3,8 @@
 # Build and push the Docker image
 docker buildx build --platform linux/amd64 \
     -t gcr.io/morume/api:latest \
+    --build-arg DATABASE_URL="${DATABASE_URL}" \
+    --build-arg DIRECT_URL="${DIRECT_URL}" \
     --push .
 
 # Get the image digest after push
