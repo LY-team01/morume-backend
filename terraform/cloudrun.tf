@@ -47,6 +47,19 @@ resource "google_cloud_run_service" "api" {
           name  = "DIRECT_URL"
           value = var.DIRECT_URL
         }
+        env {
+          name  = "GOOGLE_PROJECT_ID"
+          value = var.GOOGLE_PROJECT_ID
+        }
+        env {
+          name  = "GOOGLE_PRIVATE_KEY"
+          value = var.GOOGLE_PRIVATE_KEY
+        }
+        env {
+          name  = "GOOGLE_CLIENT_EMAIL"
+          value = var.GOOGLE_CLIENT_EMAIL
+        }
+
       }
     }
   }

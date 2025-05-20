@@ -1,3 +1,18 @@
+variable "GOOGLE_PROJECT_ID" {
+  description = "FirebaseプロジェクトID"
+  type        = string
+}
+
+variable "GOOGLE_PRIVATE_KEY" {
+  description = "Firebaseの秘密鍵"
+  type        = string
+}
+
+variable "GOOGLE_CLIENT_EMAIL" {
+  description = "Firebaseのクライアントメール"
+  type        = string
+}
+
 variable "PROJECT_ID" {
   description = "GCPプロジェクトID"
   type        = string
