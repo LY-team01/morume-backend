@@ -1,0 +1,70 @@
+name: Build & Deploy (Cloud Run + Terraform)
+
+on:
+  pull_request:
+    branches:
+      - main
+env:
+  PROJECT_ID: morume
+  REGION: asia-northeast1
+  IMAGE_NAME: api
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. リポジトリ取得
+      - uses: actions/checkout@v4
+
+      # Inserted step for authentication
+      - uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      # 2. gcloud セットアップ（サービスアカウント キーで認証）
+      - uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      # 3. buildx セットアップ
+      - uses: docker/setup-buildx-action@v3
+
+      # 4. Artifact Registry へログイン
+      - name: Docker Auth to Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      # 5. コンテナイメージ Build & Push
+      - name: Build & Push image
+        run: |
+          docker buildx build --platform linux/amd64 \
+            -t gcr.io/morume/api:latest \
+            --push .
+
+      # 6. 最新イメージ digest を取得
+      - id: digest
+        name: Get image digest
+        run: |
+          DIGEST=$(gcloud container images describe \
+            ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}:latest \
+            --format='get(image_summary.digest)')
+          echo "IMAGE_REF=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run/${{ env.IMAGE_NAME }}@$DIGEST" \
+            >> $GITHUB_OUTPUT
+
+      # 7. Terraform CLI セットアップ（Cloud 連携なし）
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.4
+
+      # 8. terraform init（ローカル state）
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init -input=false
+
+      # 9. terraform apply（prod.tfvars + image digest）
+      - name: Terraform Apply
+        working-directory: terraform
+        run: |
+          terraform apply -input=false -auto-approve \
+            -var-file=prod.tfvars \
+            -var="api_image_url=${{ steps.digest.outputs.IMAGE_REF }}"
