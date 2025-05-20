@@ -13,6 +13,12 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
+ARG DATABASE_URL
+ARG DIRECT_URL
+
+ENV DATABASE_URL=$DATABASE_URL
+ENV DIRECT_URL=$DIRECT_URL
+
 RUN pnpm exec prisma generate
 RUN pnpm exec prisma migrate deploy
 
