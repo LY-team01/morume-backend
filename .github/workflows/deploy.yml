@@ -50,6 +50,8 @@ jobs:
         run: |
           docker buildx build --platform linux/amd64 \
             -t gcr.io/morume/api:latest \
+            --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            --build-arg DIRECT_URL="${{ secrets.DIRECT_URL }}" \
             --push .
 
       # 6. 最新イメージ digest を取得
