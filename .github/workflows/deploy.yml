@@ -79,6 +79,20 @@ jobs:
         working-directory: terraform
         run: |
           terraform import \
+            -var="PROJECT_ID=${{ env.PROJECT_ID }}" \
+            -var="REGION=${{ env.REGION }}" \
+            -var="API_IMAGE_URL=${{ steps.digest.outputs.IMAGE_REF }}" \
+            -var="SWAGGER_USER=${{ env.SWAGGER_USER }}" \
+            -var="SWAGGER_PASS=${{ env.SWAGGER_PASS }}" \
+            -var="POSTGRES_USER=${{ env.POSTGRES_USER }}" \
+            -var="POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}" \
+            -var="POSTGRES_DB=${{ env.POSTGRES_DB }}" \
+            -var="POSTGRES_PORT=${{ env.POSTGRES_PORT }}" \
+            -var="GOOGLE_PROJECT_ID=${{ env.GOOGLE_PROJECT_ID }}" \
+            -var="GOOGLE_PRIVATE_KEY=${{ env.GOOGLE_PRIVATE_KEY }}" \
+            -var="GOOGLE_CLIENT_EMAIL=${{ env.GOOGLE_CLIENT_EMAIL }}" \
+            -var="DATABASE_URL=${{ secrets.DATABASE_URL }}" \
+            -var="DIRECT_URL=${{ secrets.DIRECT_URL }}" \
             google_cloud_run_service.api \
             projects/morume/locations/us-central1/services/morume
         env:
