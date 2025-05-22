@@ -11,15 +11,6 @@ import {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
-    @Column({ type: 'varchar', length: 100, nullable: false })
-    name: string;
-  
-    @Column({ type: 'varchar', length: 100, nullable: true })
-    avatarUrl: string | null;
-  
-    @Column({ type: 'json', nullable: true })
-    filter: Record<string, any>;
-  
     @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
   
@@ -28,36 +19,23 @@ import {
   
     static create(data: {
       id: string;
-      nickname: string;
-      avatarUrl: string | null;
-      filter: Record<string, any>;
-    }): UserEntity {
-      const user = new UserEntity();
-      user.id = data.id;
-      user.nickname = data.nickname;
-      user.avatarUrl = data.avatarUrl;
-      user.filter = data.filter;
-      user.createdAt = new Date();
-      user.updatedAt = new Date();
-      return user;
+    }): GroupEntity {
+      const group = new GroupEntity();
+      group.id = data.id;
+      group.createdAt = new Date();
+      group.updatedAt = new Date();
+      return group;
     }
   
     static factory(data: {
       id: string;
-      nickname: string;
-      avatarUrl: string;
-      filter: Record<string, any>;
       createdAt: Date;
       updatedAt: Date | null;
-    }): UserEntity {
-      const user = new UserEntity();
-      user.id = data.id;
-      user.nickname = data.nickname;
-      user.avatarUrl = data.avatarUrl;
-      user.filter = data.filter;
-      user.createdAt = data.createdAt;
-      user.updatedAt = data.updatedAt;
-      return user;
+    }): GroupEntity {
+      const group = new GroupEntity();
+      group.id = data.id;
+      group.createdAt = data.createdAt;
+      group.updatedAt = data.updatedAt;
+      return group;
     }
   }
-  
