@@ -48,6 +48,6 @@ export const createUserValidationSchema = z
         mouth: z.number().min(0).max(100).optional(),
       })
       .default({}),
-      features: z.array(z.number()).nullable().optional(),
+    features: z.array(z.number()).nullable().optional(),
   })
   .strict();
