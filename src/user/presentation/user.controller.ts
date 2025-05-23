@@ -48,6 +48,7 @@ export class UserController {
       nickname: dto.nickname,
       avatarUrl: dto.avatarUrl || null,
       filter: dto.filter,
+      features: dto.features,
     });
   }
 

@@ -12,6 +12,7 @@ model User {
     id        String   @id @default(uuid())
     nickname  String
     avatarUrl String?
+    features Int[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     filter    Filter?

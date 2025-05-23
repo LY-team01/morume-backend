@@ -15,6 +15,7 @@ export class UserRepository implements IUserRepository {
       nickname: input.user.nickname,
       avatarUrl: input.user.avatarUrl,
       filter: input.filter,
+      features: input.user.features.length === 0 ? null : input.user.features, // 配列が空の場合は null に変換してドメイン層に渡す
       createdAt: input.user.createdAt,
       updatedAt: input.user.updatedAt,
     });
@@ -61,6 +62,7 @@ export class UserRepository implements IUserRepository {
       id: user.id,
       nickname: user.nickname,
       avatarUrl: user.avatarUrl,
+      features: user.features ?? [], // Domain層のNullは空配列としてDBで保存
       createdAt: existingUser?.createdAt ?? user.createdAt ?? now,
       updatedAt: now,
     };
