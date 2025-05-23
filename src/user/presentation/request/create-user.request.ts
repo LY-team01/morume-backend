@@ -26,6 +26,12 @@ export class CreateUserRequest {
     required: false,
   })
   filter: Record<string, any>;
+
+  @ApiProperty({
+    description: 'フィルターの特徴量',
+    example: [1, 2, 3],
+  })
+  features: number[];
 }
 
 export const createUserValidationSchema = z
@@ -42,5 +48,6 @@ export const createUserValidationSchema = z
         mouth: z.number().min(0).max(100).optional(),
       })
       .default({}),
+      features: z.array(z.number()).nullable().optional(),
   })
   .strict();

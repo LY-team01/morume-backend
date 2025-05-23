@@ -48,6 +48,13 @@ components:
           nullable: true
         filter:
           $ref: '#/components/schemas/FilterParameters'
+        features:
+          type: array
+          items:
+            type: integer
+          nullable: true
+          description: 顔特徴量の数値配列
+          example: [1, 2, 3]
         createdAt:
           type: string
           format: date-time
@@ -91,6 +98,13 @@ paths:
                   nullable: true
                 filter:
                   $ref: '#/components/schemas/FilterParameters'
+                features:
+                  type: array
+                  items:
+                    type: integer
+                  nullable: true
+                  description: 特徴の配列
+                  example: [1, 2, 3]
       responses:
         '200':
           description: ユーザー登録/更新成功
