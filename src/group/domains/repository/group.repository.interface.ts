@@ -5,4 +5,5 @@ export interface IGroupRepository {
     findByUserId(userId: string): Promise<GroupEntity | null>;
     save(group: GroupEntity): Promise<GroupEntity>;
     updateUserGroup(userId: string, groupId: string | null): Promise<void>;
+    findUserIdsByGroupId(groupId: string): Promise<string[]>;
   }

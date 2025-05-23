@@ -37,7 +37,9 @@ export class GroupRepository implements IGroupRepository {
       where: { id: userId },
       include: { group: true },
     });
-
+    if (!user) {
+      throw new ResourceNotFoundError('ユーザーが見つかりません');
+    }
     if (!user?.group) {
       return null;
     }
@@ -72,5 +74,13 @@ export class GroupRepository implements IGroupRepository {
       where: { id: userId },
       data: { groupId },
     });
+  }
+
+  async findUserIdsByGroupId(groupId: string): Promise<string[]> {
+    const users = await this.prisma.user.findMany({
+      where: { groupId },
+      select: { id: true },
+    });
+    return users.map((user) => user.id);
   }
 }
