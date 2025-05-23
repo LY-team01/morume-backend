@@ -20,6 +20,9 @@ export class UserEntity {
   @Column({ type: 'json', nullable: true })
   filter: Record<string, any>;
 
+  @Column({ type: 'int', array: true, nullable: true })
+  features: number[] | null;
+
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
@@ -31,12 +34,14 @@ export class UserEntity {
     nickname: string;
     avatarUrl: string | null;
     filter: Record<string, any>;
+    features: number[] | null;
   }): UserEntity {
     const user = new UserEntity();
     user.id = data.id;
     user.nickname = data.nickname;
     user.avatarUrl = data.avatarUrl;
     user.filter = data.filter;
+    user.features = data.features;
     user.createdAt = new Date();
     user.updatedAt = new Date();
     return user;
@@ -47,6 +52,7 @@ export class UserEntity {
     nickname: string;
     avatarUrl: string;
     filter: Record<string, any>;
+    features: number[] | null;
     createdAt: Date;
     updatedAt: Date | null;
   }): UserEntity {
@@ -55,6 +61,7 @@ export class UserEntity {
     user.nickname = data.nickname;
     user.avatarUrl = data.avatarUrl;
     user.filter = data.filter;
+    user.features = data.features;
     user.createdAt = data.createdAt;
     user.updatedAt = data.updatedAt;
     return user;
