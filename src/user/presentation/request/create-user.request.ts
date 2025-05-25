@@ -40,12 +40,12 @@ export const createUserValidationSchema = z
     avatarUrl: z.string().url().optional().nullable(),
     filter: z
       .object({
-        brightness: z.number().min(0).max(100).optional(),
-        skin: z.number().min(0).max(100).optional(),
-        contour: z.number().min(0).max(100).optional(),
-        eye: z.number().min(0).max(100).optional(),
-        nose: z.number().min(0).max(100).optional(),
-        mouth: z.number().min(0).max(100).optional(),
+        brightness: z.number().min(-100).max(100).optional(),
+        skin: z.number().min(-100).max(100).optional(),
+        contour: z.number().min(-100).max(100).optional(),
+        eye: z.number().min(-100).max(100).optional(),
+        nose: z.number().min(-100).max(100).optional(),
+        mouth: z.number().min(-100).max(100).optional(),
       })
       .default({}),
     features: z.array(z.number()).nullable().optional(),
