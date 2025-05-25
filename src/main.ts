@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as basicAuth from 'express-basic-auth';
 import * as admin from 'firebase-admin';
+import { join } from 'path';
+import * as express from 'express';
 
 const serviceAccount = {
   projectId: process.env.GOOGLE_PROJECT_ID,
@@ -18,6 +20,19 @@ if (!admin.apps.length) {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // AASAファイルの配信設定
+  app.use(
+    '/.well-known/apple-app-site-association',
+    express.static(
+      join(__dirname, '..', '..', '.well-known', 'apple-app-site-association'), //Nestのルートはdistなので２つ分上に戻る
+      {
+        setHeaders: (res) => {
+          res.set('Content-Type', 'application/json');
+        },
+      },
+    ),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('morume API')
@@ -42,7 +57,6 @@ async function bootstrap() {
     .build();
 
   app.setGlobalPrefix('/api');
-
   app.use(
     ['/docs', '/docs-json'],
     basicAuth({
