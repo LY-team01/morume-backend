@@ -1,10 +1,14 @@
 // src/group/presentation/group.controller.ts
-import { Controller, Get, Post, Put, Req, UseGuards, Param } from '@nestjs/common';
 import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-} from '@nestjs/swagger';
+  Controller,
+  Get,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+  Param,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
 import { CreateGroupUseCase } from '../usecases/create-group.usecase';
 import { InviteUserUseCase } from '../usecases/invite-user.usecase';
@@ -54,15 +58,15 @@ export class GroupController {
       type: 'object',
       properties: {
         statusCode: { type: 'number', example: 404 },
-        message: { type: 'string', example: 'Group with ID {groupId} not found' },
+        message: {
+          type: 'string',
+          example: 'Group with ID {groupId} not found',
+        },
         error: { type: 'string', example: 'Not Found' },
       },
     },
   })
-  async inviteUser(
-    @Req() req: Request,
-    @Param('groupId') groupId: string,
-  ) {
+  async inviteUser(@Req() req: Request, @Param('groupId') groupId: string) {
     const userId = req.user.uid;
     await this.inviteUserUseCase.execute({ userId, groupId });
     return { status: 'success' };
