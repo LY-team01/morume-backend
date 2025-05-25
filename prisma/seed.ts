@@ -4,11 +4,22 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 const main = async () => {
+  const groups = await Promise.all(
+    Array.from({ length: 3 }, () =>
+      prisma.group.create({
+        data: {
+          id: faker.string.uuid(),
+        },
+      })
+    )
+  );
   for (let i = 0; i < 10; i++) {
+    const randomGroup = faker.helpers.arrayElement(groups);
     const user = await prisma.user.create({
       data: {
         nickname: faker.internet.username(),
         avatarUrl: faker.image.avatar(),
+        groupId: randomGroup.id,
       },
     });
 
