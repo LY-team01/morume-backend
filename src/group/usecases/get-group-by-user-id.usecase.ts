@@ -16,8 +16,8 @@ export class GetGroupByUserIdUseCase {
       if (!group) {
         throw new NotFoundException('グループに所属していません');
       }
-    // グループに所属するユーザーを取得
-    const userIds = await this.userRepository.findUserIdsByGroupId(group.id);
+      // グループに所属するユーザーを取得
+      const userIds = await this.userRepository.findUserIdsByGroupId(group.id);
 
       return {
         id: group.id,

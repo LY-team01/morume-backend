@@ -1,14 +1,15 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { IGroupRepository } from "../domains/repository/group.repository.interface";
-import { IUserRepository } from "src/user/domains/repository/user.repository.interface";
-import { GroupResponse } from "../presentation/response/group.response";
-import { GroupEntity } from "../domains/entities/group.entity";
+import { Inject, Injectable } from '@nestjs/common';
+import { IGroupRepository } from '../domains/repository/group.repository.interface';
+import { IUserRepository } from 'src/user/domains/repository/user.repository.interface';
+import { GroupResponse } from '../presentation/response/group.response';
+import { GroupEntity } from '../domains/entities/group.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CreateGroupUseCase {
   constructor(
-    @Inject('GroupRepository') private readonly groupRepository: IGroupRepository,
+    @Inject('GroupRepository')
+    private readonly groupRepository: IGroupRepository,
     @Inject('UserRepository') private readonly userRepository: IUserRepository,
   ) {}
 

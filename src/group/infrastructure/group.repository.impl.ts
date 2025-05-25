@@ -32,7 +32,6 @@ export class GroupRepository implements IGroupRepository {
     return this.toEntity({ group });
   }
 
-
   async save(group: GroupEntity): Promise<GroupEntity> {
     const now = new Date();
 
