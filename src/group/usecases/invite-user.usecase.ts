@@ -3,14 +3,15 @@ import { IGroupRepository } from 'src/group/domains/repository/group.repository.
 @Injectable()
 export class InviteUserUseCase {
   constructor(
-    @Inject('GroupRepository') private readonly groupRepository: IGroupRepository,
+    @Inject('GroupRepository')
+    private readonly groupRepository: IGroupRepository,
   ) {}
 
   async execute(dto: { userId: string; groupId: string }): Promise<void> {
     // 1. グループの存在確認
     try {
       await this.groupRepository.findById(dto.groupId);
-    } catch (error) {
+    } catch (_error) {
       throw new NotFoundException('グループが見つかりません');
     }
 

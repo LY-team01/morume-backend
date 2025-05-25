@@ -1,6 +1,5 @@
 import { Inject, Injectable, NotFoundException} from '@nestjs/common';
 import { IGroupRepository } from 'src/group/domains/repository/group.repository.interface';
-import { GroupEntity } from '../domains/entities/group.entity';
 @Injectable()
 export class GetGroupByUserIdUseCase {
   constructor(
