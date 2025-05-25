@@ -10,8 +10,8 @@ const main = async () => {
         data: {
           id: faker.string.uuid(),
         },
-      })
-    )
+      }),
+    ),
   );
   for (let i = 0; i < 10; i++) {
     const randomGroup = faker.helpers.arrayElement(groups);
