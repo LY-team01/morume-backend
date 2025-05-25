@@ -11,7 +11,7 @@ export class InviteUserUseCase {
     // 1. グループの存在確認
     try {
       await this.groupRepository.findById(dto.groupId);
-    } catch (_error) {
+    } catch {
       throw new NotFoundException('グループが見つかりません');
     }
 
