@@ -4,7 +4,6 @@ import { IUserRepository } from 'src/user/domains/repository/user.repository.int
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 import { ResourceNotFoundError } from 'src/shared/errors/resource-not-found.error';
-
 type UserType = Prisma.UserGetPayload<object>;
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -15,6 +14,7 @@ export class UserRepository implements IUserRepository {
       nickname: input.user.nickname,
       avatarUrl: input.user.avatarUrl,
       filter: input.filter,
+      features: input.user.features.length === 0 ? null : input.user.features, // 配列が空の場合は null に変換してドメイン層に渡す
       createdAt: input.user.createdAt,
       updatedAt: input.user.updatedAt,
     });
@@ -61,6 +61,7 @@ export class UserRepository implements IUserRepository {
       id: user.id,
       nickname: user.nickname,
       avatarUrl: user.avatarUrl,
+      features: user.features ?? [], // Domain層のNullは空配列としてDBで保存
       createdAt: existingUser?.createdAt ?? user.createdAt ?? now,
       updatedAt: now,
     };
@@ -89,5 +90,20 @@ export class UserRepository implements IUserRepository {
       user: savedUser,
       filter: savedFilter.parameters as Record<string, any>,
     });
+  }
+
+  async updateUserGroup(userId: string, groupId: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { groupId },
+    });
+  }
+
+  async findUserIdsByGroupId(groupId: string): Promise<string[]> {
+    const users = await this.prisma.user.findMany({
+      where: { groupId },
+      select: { id: true },
+    });
+    return users.map((user) => user.id);
   }
 }

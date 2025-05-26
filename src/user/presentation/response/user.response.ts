@@ -24,6 +24,14 @@ export class UserResponse {
   })
   filter: Record<string, any>;
 
+  @ApiProperty({
+    description: '顔特徴量の数値配列',
+    example: [1, 2, 3],
+    type: [Number],
+    nullable: true,
+  })
+  features: number[] | null;
+
   @ApiProperty()
   createdAt: string;
 

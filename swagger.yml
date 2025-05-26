@@ -48,6 +48,13 @@ components:
           nullable: true
         filter:
           $ref: '#/components/schemas/FilterParameters'
+        features:
+          type: array
+          items:
+            type: integer
+          nullable: true
+          description: 顔特徴量の数値配列
+          example: [1, 2, 3]
         createdAt:
           type: string
           format: date-time
@@ -63,6 +70,21 @@ components:
             userId:
               type: string
               format: uuid
+
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        createdAt:
+          type: string
+          format: date-time
 
 security:
   - FirebaseAuth: []
@@ -91,6 +113,13 @@ paths:
                   nullable: true
                 filter:
                   $ref: '#/components/schemas/FilterParameters'
+                features:
+                  type: array
+                  items:
+                    type: integer
+                  nullable: true
+                  description: 特徴の配列
+                  example: [1, 2, 3]
       responses:
         '200':
           description: ユーザー登録/更新成功
@@ -179,3 +208,113 @@ paths:
           description: 認証エラー
         '404':
           description: フィルターが見つかりません
+
+  /api/groups:
+    put:
+      tags: [GROUP]
+      summary: グループ作成
+      security:
+        - FirebaseAuth: []
+      responses:
+        '201':
+          description: グループ作成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  userIds:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                  createdAt:
+                    type: string
+                    format: date-time
+        '401':
+          description: 認証エラー
+
+  /api/groups/invite/{groupId}:
+    post:
+      tags: [GROUP]
+      summary: グループ招待
+      security:
+        - FirebaseAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: グループ招待成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        '401':
+          description: 認証エラー
+        '404':
+          description: グループが見つかりません
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    example: 404
+                  message:
+                    type: string
+                    example: Group with ID {groupId} not found
+                  error:
+                    type: string
+                    example: Not Found
+
+  /api/groups/{userId}:
+    get:
+      tags: [GROUP]
+      summary: グループ取得
+      security:
+        - FirebaseAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: グループ取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '401':
+          description: 認証エラー
+        '404':
+          description: ユーザーがグループに所属していません
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    example: 404
+                  message:
+                    type: string
+                    example: グループに所属していません
+                  error:
+                    type: string
+                    example: Not Found

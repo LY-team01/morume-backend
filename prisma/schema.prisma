@@ -12,9 +12,12 @@ model User {
     id        String   @id @default(uuid())
     nickname  String
     avatarUrl String?
+    features Int[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     filter    Filter?
+    groupId   String?
+    group     Group?   @relation(fields: [groupId], references: [id])
 }
 
 model Filter {
@@ -24,3 +27,11 @@ model Filter {
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
 }
+
+model Group {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    users     User[]
+}
+
