@@ -6,8 +6,10 @@ import { InviteUserUseCase } from './usecases/invite-user.usecase';
 import { GetGroupByUserIdUseCase } from './usecases/get-group-by-user-id.usecase';
 import { GroupRepository } from './infrastructure/group.repository.impl';
 import { PrismaModule } from '../../prisma/prisma.module';
+import { UserModule } from 'src/user/user.module';
+import { UserRepository } from 'src/user/infrastructure/user.repository.impl';
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, UserModule],
   controllers: [GroupController],
   providers: [
     CreateGroupUseCase,
@@ -16,6 +18,10 @@ import { PrismaModule } from '../../prisma/prisma.module';
     {
       provide: 'GroupRepository',
       useClass: GroupRepository,
+    },
+    {
+      provide: 'UserRepository',
+      useClass: UserRepository,
     },
   ],
 })

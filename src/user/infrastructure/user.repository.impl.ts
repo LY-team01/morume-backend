@@ -4,7 +4,6 @@ import { IUserRepository } from 'src/user/domains/repository/user.repository.int
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 import { ResourceNotFoundError } from 'src/shared/errors/resource-not-found.error';
-
 type UserType = Prisma.UserGetPayload<object>;
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -91,5 +90,20 @@ export class UserRepository implements IUserRepository {
       user: savedUser,
       filter: savedFilter.parameters as Record<string, any>,
     });
+  }
+
+  async updateUserGroup(userId: string, groupId: string): Promise<void> {
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { groupId },
+    });
+  }
+
+  async findUserIdsByGroupId(groupId: string): Promise<string[]> {
+    const users = await this.prisma.user.findMany({
+      where: { groupId },
+      select: { id: true },
+    });
+    return users.map((user) => user.id);
   }
 }
