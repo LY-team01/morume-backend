@@ -1,8 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { IGroupRepository } from 'src/group/domains/repository/group.repository.interface';
 import { IUserRepository } from 'src/user/domains/repository/user.repository.interface';
 @Injectable()
 export class GetGroupByUserIdUseCase {
   constructor(
+    @Inject('GroupRepository')
+    private readonly groupRepository: IGroupRepository,
     @Inject('UserRepository') private readonly userRepository: IUserRepository,
   ) {}
 
@@ -12,7 +15,7 @@ export class GetGroupByUserIdUseCase {
     createdAt: Date;
   } | null> {
     try {
-      const group = await this.userRepository.findGroupByUserId(userId);
+      const group = await this.groupRepository.findByUserId(userId);
       if (!group) {
         throw new NotFoundException('グループに所属していません');
       }

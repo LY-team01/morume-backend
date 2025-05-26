@@ -4,9 +4,7 @@ import { IUserRepository } from 'src/user/domains/repository/user.repository.int
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 import { ResourceNotFoundError } from 'src/shared/errors/resource-not-found.error';
-import { GroupEntity } from 'src/group/domains/entities/group.entity';
 type UserType = Prisma.UserGetPayload<object>;
-type GroupType = Prisma.GroupGetPayload<object>;
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(readonly prisma: PrismaService) {}
@@ -19,14 +17,6 @@ export class UserRepository implements IUserRepository {
       features: input.user.features.length === 0 ? null : input.user.features, // 配列が空の場合は null に変換してドメイン層に渡す
       createdAt: input.user.createdAt,
       updatedAt: input.user.updatedAt,
-    });
-  }
-
-  toGroupEntity(input: { group: GroupType }): GroupEntity {
-    return GroupEntity.factory({
-      id: input.group.id,
-      createdAt: input.group.createdAt,
-      updatedAt: input.group.updatedAt,
     });
   }
 
@@ -100,21 +90,6 @@ export class UserRepository implements IUserRepository {
       user: savedUser,
       filter: savedFilter.parameters as Record<string, any>,
     });
-  }
-  //グループ関連のメソッド
-  async findGroupByUserId(userId: string): Promise<GroupEntity | null> {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      include: { group: true },
-    });
-    if (!user) {
-      throw new ResourceNotFoundError('ユーザーが見つかりません');
-    }
-    if (!user?.group) {
-      return null;
-    }
-
-    return this.toGroupEntity({ group: user.group });
   }
 
   async updateUserGroup(userId: string, groupId: string): Promise<void> {

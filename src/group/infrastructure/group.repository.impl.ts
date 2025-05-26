@@ -32,6 +32,21 @@ export class GroupRepository implements IGroupRepository {
     return this.toEntity({ group });
   }
 
+  async findByUserId(userId: string): Promise<GroupEntity | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { group: true },
+    });
+    if (!user) {
+      throw new ResourceNotFoundError('ユーザーが見つかりません');
+    }
+    if (!user?.group) {
+      return null;
+    }
+
+    return this.toEntity({ group: user.group });
+  }
+
   async save(group: GroupEntity): Promise<GroupEntity> {
     const now = new Date();
 
