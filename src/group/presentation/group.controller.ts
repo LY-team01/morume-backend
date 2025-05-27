@@ -14,6 +14,7 @@ import { CreateGroupUseCase } from '../usecases/create-group.usecase';
 import { InviteUserUseCase } from '../usecases/invite-user.usecase';
 import { GetGroupByUserIdUseCase } from '../usecases/get-group-by-user-id.usecase';
 import { Request } from 'express';
+import { CreateGroupResponse } from './response/create-group.response';
 
 @Controller('groups')
 export class GroupController {
@@ -30,20 +31,14 @@ export class GroupController {
   @ApiResponse({
     status: 201,
     description: 'グループ作成成功',
-    schema: {
-      type: 'object',
-      properties: {
-        groupId: { type: 'string' },
-        createdAt: { type: 'string', format: 'date-time' },
-      },
-    },
+    type: CreateGroupResponse,
   })
   async createGroup(@Req() req: Request) {
     const userId = req.user.uid;
     return await this.createGroupUseCase.execute(userId);
   }
 
-  @Post('invite/:groupId')
+  @Post('join/:groupId')
   @UseGuards(FirebaseAuthGuard)
   @ApiBearerAuth('firebase-token')
   @ApiOperation({ summary: 'グループ招待' })
