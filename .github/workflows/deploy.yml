@@ -1,9 +1,10 @@
 name: Build & Deploy (Cloud Run + Terraform)
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+      - release/*
 env:
   PROJECT_ID: morume
   REGION: us-central1
