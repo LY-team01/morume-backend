@@ -39,6 +39,11 @@ variable "SWAGGER_PASS" {
   type        = string
 }
 
+variable "BASE_URL" {
+  description = "APIのベースURL"
+  type        = string
+}
+
 variable "POSTGRES_USER" {
   description = "PostgreSQLのユーザー名"
   type        = string
