@@ -5,7 +5,7 @@
       {
         "appID": "N38H3ZBTB2.com.lyteam01.MoruMe",
         "paths": [
-          "/groups/invite/*"
+          "/api/groups/invite/*"
         ]
       }
     ]
