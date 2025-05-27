@@ -7,13 +7,14 @@ import {
   Req,
   UseGuards,
   Param,
+  Res,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
 import { CreateGroupUseCase } from '../usecases/create-group.usecase';
 import { JoinUserUseCase } from '../usecases/join-user.usecase';
 import { GetGroupByUserIdUseCase } from '../usecases/get-group-by-user-id.usecase';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { CreateGroupResponse } from './response/create-group.response';
 
 @Controller('groups')
@@ -37,14 +38,17 @@ export class GroupController {
     const userId = req.user.uid;
     return await this.createGroupUseCase.execute(userId);
   }
-
+  @Get('invite/:id')
+  invite(@Param('id') id: string, @Res() res: Response) {
+    res.status(200).send(`Invite ID: ${id}`);
+  }
   @Post('join/:groupId')
   @UseGuards(FirebaseAuthGuard)
   @ApiBearerAuth('firebase-token')
-  @ApiOperation({ summary: 'グループ招待' })
+  @ApiOperation({ summary: 'グループ参加' })
   @ApiResponse({
     status: 200,
-    description: 'グループ招待成功',
+    description: 'グループ参加成功',
   })
   @ApiResponse({
     status: 404,
