@@ -5,7 +5,7 @@ export class CreateGroupResponse {
   groupId: string;
 
   @ApiProperty({
-    example: 'http://localhost:8080/invite/XXXX',
+    example: 'http://localhost:8080/groups/invite/XXXX',
   })
   inviteUrl: string;
 }
