@@ -38,10 +38,21 @@ export class GroupController {
     const userId = req.user.uid;
     return await this.createGroupUseCase.execute(userId);
   }
+
   @Get('invite/:id')
   invite(@Param('id') id: string, @Res() res: Response) {
-    res.status(200).send(`Invite ID: ${id}`);
+    res.setHeader('Content-Type', 'text/html');
+    res.send(`
+    <html>
+      <head><title>グループ招待</title></head>
+      <body>
+        <p>アプリが自動で開かない場合は、以下をタップしてください：</p>
+        <a href="morume://groups/join/${id}">アプリで開く</a>
+      </body>
+    </html>
+  `);
   }
+
   @Post('join/:groupId')
   @UseGuards(FirebaseAuthGuard)
   @ApiBearerAuth('firebase-token')
