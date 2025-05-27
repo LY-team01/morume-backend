@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - release/*
 env:
   PROJECT_ID: morume
   REGION: us-central1
