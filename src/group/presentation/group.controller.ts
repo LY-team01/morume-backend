@@ -40,6 +40,7 @@ export class GroupController {
   }
 
   @Get('invite/:id')
+  @ApiOperation({ summary: 'ユニバーサルリンクを開いた時' })
   invite(@Param('id') id: string, @Res() res: Response) {
     res.setHeader('Content-Type', 'text/html');
     res.send(`
