@@ -3,8 +3,10 @@
     "apps": [],
     "details": [
       {
-        "appID": "TEAM_ID.com.morume.app",
-        "paths": ["/groups/join/*"]
+        "appID": "N38H3ZBTB2.com.lyteam01.MoruMe",
+        "paths": [
+          "/groups/join/*"
+        ]
       }
     ]
   }

@@ -25,15 +25,14 @@ async function bootstrap() {
   app.use(
     '/.well-known/apple-app-site-association',
     express.static(
-      join(__dirname, '..', '..', '.well-known', 'apple-app-site-association'), //Nestのルートはdistなので２つ分上に戻る
+      join(__dirname, '..', '..', '.well-known', 'apple-app-site-association'), // Nestのdistから2階層戻る
       {
         setHeaders: (res) => {
-          res.set('Content-Type', 'application/json');
+          res.set('Content-Type', 'application/pkcs7-mime');
         },
       },
     ),
   );
-
   const config = new DocumentBuilder()
     .setTitle('morume API')
     .setDescription('morume APIの仕様書です')
