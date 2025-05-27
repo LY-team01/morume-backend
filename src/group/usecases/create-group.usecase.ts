@@ -24,7 +24,7 @@ export class CreateGroupUseCase {
     await this.userRepository.updateUserGroup(userId, savedGroup.id);
 
     const baseUrl = process.env.BASE_URL ?? '';
-    const inviteUrl = `${baseUrl}/groups/invite/${savedGroup.id}`;
+    const inviteUrl = `${baseUrl}/api/groups/invite/${savedGroup.id}`;
 
     return {
       groupId: savedGroup.id,
