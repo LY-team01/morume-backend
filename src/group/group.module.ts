@@ -2,7 +2,7 @@
 import { Module } from '@nestjs/common';
 import { GroupController } from './presentation/group.controller';
 import { CreateGroupUseCase } from './usecases/create-group.usecase';
-import { InviteUserUseCase } from './usecases/invite-user.usecase';
+import { JoinUserUseCase } from './usecases/join-user.usecase';
 import { GetGroupByUserIdUseCase } from './usecases/get-group-by-user-id.usecase';
 import { GroupRepository } from './infrastructure/group.repository.impl';
 import { PrismaModule } from '../../prisma/prisma.module';
@@ -13,7 +13,7 @@ import { UserRepository } from 'src/user/infrastructure/user.repository.impl';
   controllers: [GroupController],
   providers: [
     CreateGroupUseCase,
-    InviteUserUseCase,
+    JoinUserUseCase,
     GetGroupByUserIdUseCase,
     {
       provide: 'GroupRepository',
