@@ -23,7 +23,7 @@ export class CreateGroupUseCase {
     // 2. ユーザーの所属グループを上書き
     await this.userRepository.updateUserGroup(userId, savedGroup.id);
 
-    const baseUrl = process.env.BASE_URL ?? 'http://localhost:8080';
+    const baseUrl = process.env.BASE_URL ?? '';
     const inviteUrl = `${baseUrl}/groups/invite/${savedGroup.id}`;
 
     return {
