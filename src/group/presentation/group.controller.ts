@@ -48,7 +48,7 @@ export class GroupController {
       <head><title>グループ招待</title></head>
       <body>
         <p>アプリが自動で開かない場合は、以下をタップしてください：</p>
-        <a href="morume://groups/invite/${id}">アプリで開く</a>
+        <a href="morume://api/groups/invite/${id}">アプリで開く</a>
       </body>
     </html>
   `);
