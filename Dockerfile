@@ -4,7 +4,7 @@ RUN apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
     echo "Asia/Tokyo" > /etc/timezone
 
-RUN npm install -g pnpm
+RUN corepack enable && corepack prepare pnpm@9.1.0 --activate
 
 WORKDIR /app
 
