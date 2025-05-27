@@ -12,6 +12,7 @@ env:
   IMAGE_NAME: api
   SWAGGER_USER: ${{ secrets.SWAGGER_USER }}
   SWAGGER_PASS: ${{ secrets.SWAGGER_PASS }}
+  BASE_URL: ${{ secrets.BASE_URL }}
   POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
   POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -90,6 +91,7 @@ jobs:
           TF_VAR_API_IMAGE_URL: ${{ steps.digest.outputs.IMAGE_REF }}
           TF_VAR_SWAGGER_USER: ${{ env.SWAGGER_USER }}
           TF_VAR_SWAGGER_PASS: ${{ env.SWAGGER_PASS }}
+          TF_VAR_BASE_URL: ${{ env.BASE_URL }}
           TF_VAR_POSTGRES_USER: ${{ env.POSTGRES_USER }}
           TF_VAR_POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           TF_VAR_POSTGRES_DB: ${{ env.POSTGRES_DB }}
@@ -113,6 +115,7 @@ jobs:
             -var="API_IMAGE_URL=${{ steps.digest.outputs.IMAGE_REF }}" \
             -var="SWAGGER_USER=${{ env.SWAGGER_USER }}" \
             -var="SWAGGER_PASS=${{ env.SWAGGER_PASS }}" \
+            -var="BASE_URL=${{ env.BASE_URL }}" \
             -var="POSTGRES_USER=${{ env.POSTGRES_USER }}" \
             -var="POSTGRES_PASSWORD=${{ env.POSTGRES_PASSWORD }}" \
             -var="POSTGRES_DB=${{ env.POSTGRES_DB }}" \
