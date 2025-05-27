@@ -11,7 +11,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FirebaseAuthGuard } from 'src/shared/fireabase-auth.guard';
 import { CreateGroupUseCase } from '../usecases/create-group.usecase';
-import { InviteUserUseCase } from '../usecases/invite-user.usecase';
+import { JoinUserUseCase } from '../usecases/join-user.usecase';
 import { GetGroupByUserIdUseCase } from '../usecases/get-group-by-user-id.usecase';
 import { Request } from 'express';
 import { CreateGroupResponse } from './response/create-group.response';
@@ -20,7 +20,7 @@ import { CreateGroupResponse } from './response/create-group.response';
 export class GroupController {
   constructor(
     private readonly createGroupUseCase: CreateGroupUseCase,
-    private readonly inviteUserUseCase: InviteUserUseCase,
+    private readonly inviteUserUseCase: JoinUserUseCase,
     private readonly getGroupByUserIdUseCase: GetGroupByUserIdUseCase,
   ) {}
 
