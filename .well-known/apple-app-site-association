@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "com.hikaruaohara.morume",
+        "paths": [
+          "/api/groups/invite/*"
+        ]
+      }
+    ]
+  }
+}
