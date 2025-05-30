@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "N38H3ZBTB2.com.lyteam01.MoruMe",
+        "appID": "com.hikaruaohara.morume",
         "paths": [
           "/api/groups/invite/*"
         ]
