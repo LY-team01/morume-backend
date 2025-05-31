@@ -28,7 +28,7 @@ async function bootstrap() {
       join(__dirname, '..', '..', '.well-known', 'apple-app-site-association'), // Nestのdistから2階層戻る
       {
         setHeaders: (res) => {
-          res.set('Content-Type', 'application/pkcs7-mime');
+          res.set('Content-Type', 'application/json');
         },
       },
     ),
