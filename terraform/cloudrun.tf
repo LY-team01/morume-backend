@@ -24,6 +24,10 @@ resource "google_cloud_run_service" "api" {
           value = var.SWAGGER_PASS
         }
         env {
+          name  = "BASE_URL"
+          value = var.BASE_URL
+        }
+        env {
           name  = "POSTGRES_USER"
           value = var.POSTGRES_USER
         }
